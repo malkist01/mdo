@@ -26,7 +26,6 @@ wget https://raw.githubusercontent.com/rksuorg/kernel_patches/refs/heads/master/
 patch -p1 < kernel-4.4_4.9.patch
 
 sed -i 's/CONFIG_KSU=y/ENABLE CONFIG_KPOBES!/CONFIG_KSU_MANUAL_HOOK=y/g' arch/arm64/configs/mido_defconfig
-else
 
 curl -LSs https://raw.githubusercontent.com/ThRE-Team/KernelSU-Next/main/kernel/setup.sh | bash -s main
 
