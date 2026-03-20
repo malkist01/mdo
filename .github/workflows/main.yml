@@ -1,0 +1,20 @@
+name: mido
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-22.04   # jangan pakai latest biar stabil
+
+    steps:
+    - name: Checkout source
+      uses: actions/checkout@v4
+
+    - name: Building Kernel
+      env:
+        TZ: Asia/Jakarta
+        CHATID: -1002287610863
+        BOT_TOKEN: 7868194496:AAGY7WwRRbeCOPYOnczoCPh2psC43Q0F3JI
+      run: |
+        chmod +x mido.sh
+        bash mido.sh
