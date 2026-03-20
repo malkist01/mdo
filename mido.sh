@@ -25,7 +25,9 @@ export KBUILD_BUILD_HOST="phone"
 wget https://raw.githubusercontent.com/rksuorg/kernel_patches/refs/heads/master/manual_hook/kernel-4.4_4.9.patch
 patch -p1 < kernel-4.4_4.9.patch
 
-sed -i 's/CONFIG_KSU=y/ENABLE CONFIG_KPOBES!/CONFIG_KSU_MANUAL_HOOK=y/g' arch/arm64/configs/mido_defconfig
+echo "CONFIG_KSU=y" >> ./arch/arm64/configs/mido_defconfig
+echo "CONFIG_KSU_MANUAL_HOOK=y" >> ./arch/arm64/configs/mido_defconfig
+echo "ENABLE CONFIG_KPOBES!" >> ./arch/arm64/configs/mido_defconfig
 
 curl -LSs https://raw.githubusercontent.com/ThRE-Team/KernelSU-Next/main/kernel/setup.sh | bash -s main
 
