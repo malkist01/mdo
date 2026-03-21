@@ -11,7 +11,7 @@ exec > >(tee -a build.log) 2>&1
 PHONE="mido"
 DEFCONFIG="mido_defconfig"
 CLANG="$COMPILERDIR $(clang --version 2>&1 | head -n 1)"
-ZIPNAME="Teletubies-$PHONE-$(date '+%Y%m%d-%H%M').zip"
+ZIPNAME="Teletubies-KSUN-$PHONE-$(date '+%Y%m%d-%H%M').zip"
 BOT_TOKEN="7868194496:AAGY7WwRRbeCOPYOnczoCPh2psC43Q0F3JI"
 CHAT_ID="-1002287610863"
 COMPILERDIR="$(pwd)/../aosp-clang"
