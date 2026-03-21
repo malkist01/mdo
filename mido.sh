@@ -17,6 +17,7 @@ CHAT_ID="-1002287610863"
 COMPILERDIR="$(pwd)/../aosp-clang"
 export KBUILD_BUILD_USER="malkist"
 export KBUILD_BUILD_HOST="phone"
+LINUX_VER=$(make kernelversion 2>/dev/null)
 
 # ============================
 # KernelSU
@@ -104,6 +105,7 @@ function send_initial_message() {
     tg_channelcast \
         "🚀 <b>Kernel Build Dimulai!</b>" \
         "📱 <b>Device :</b> <code>$DEVICE</code>" \
+        "🍃 <Kernel Version :</b> <code> $LINUX_VER</code>" \
         "🛠️ <b>Compiler :</b> <code>$CLANG_V</code>" \
         "🌿 <b>Branch :</b> <code>$PARSE_BRANCH</code>" \
         "📝 <b>Commit :</b> $COMMIT_POINT" \
