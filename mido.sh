@@ -27,7 +27,7 @@ patch -p1 < kernel-4.4_4.9.patch
 
 echo "CONFIG_KSU=y" >> ./arch/arm64/configs/mido_defconfig
 echo "CONFIG_KSU_MANUAL_HOOK=y" >> ./arch/arm64/configs/mido_defconfig
-echo "ENABLE CONFIG_KPOBES!" >> ./arch/arm64/configs/mido_defconfig
+echo "CONFIG_KSU_KPROBES_HOOK=n" >> ./arch/arm64/configs/mido_defconfig
 
 curl -LSs https://raw.githubusercontent.com/ThRE-Team/KernelSU-Next/main/kernel/setup.sh | bash -s main
 
