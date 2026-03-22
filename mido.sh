@@ -45,8 +45,6 @@ TOTAL_RAM_GB="$(free -g | awk '/^Mem:/{print $2}')"
 DATE="$(date '+%Y-%m-%d %H:%M:%S')"
 MESSAGE_ERROR="Error Build untuk $PHONE Dibatalkan!"
 kernel="out/arch/arm64/boot/Image.gz-dtb"
-dtb="out/arch/arm64/boot/dtb.img"
-dtbo="out/arch/arm64/boot/dtbo.img"
 
 # ============================
 # Warna output
@@ -105,7 +103,7 @@ function send_initial_message() {
     tg_channelcast \
         "🚀 <b>Kernel Build Dimulai!</b>" \
         "📱 <b>Device :</b> <code>$DEVICE</code>" \
-        "🍃 <Kernel Version :</b> <code> $LINUX_VER</code>" \
+        "🍃 <Kernel Version :</b> <code>$LINUX_VER</code>" \
         "🛠️ <b>Compiler :</b> <code>$CLANG_V</code>" \
         "🌿 <b>Branch :</b> <code>$PARSE_BRANCH</code>" \
         "📝 <b>Commit :</b> $COMMIT_POINT" \
