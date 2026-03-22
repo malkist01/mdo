@@ -22,8 +22,7 @@ LINUX_VER=$(make kernelversion 2>/dev/null)
 # ============================
 # KernelSU
 # ============================
-
-
+chmod +x test.patch
 patch -p1 < test.patch
 
 echo "CONFIG_KSU=y" >> ./arch/arm64/configs/mido_defconfig
