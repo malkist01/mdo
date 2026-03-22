@@ -23,8 +23,6 @@ LINUX_VER=$(make kernelversion 2>/dev/null)
 # KernelSU
 # ============================
 
-wget https://raw.githubusercontent.com/rksuorg/kernel_patches/refs/heads/master/manual_hook/kernel-4.4_4.9.patch
-patch -p1 < kernel-4.4_4.9.patch
 curl -LSs https://raw.githubusercontent.com/ThRE-Team/KernelSU-Next/main/kernel/setup.sh | bash -s main
 
 # ============================
