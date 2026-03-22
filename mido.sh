@@ -30,8 +30,6 @@ chmod +x susfs_1.patch
 chmod +x susfs_2.patch
 chmod +x susfs_3.patch
 patch -p1 < test.patch
-patch -p1 < susfs_1.patch
-patch -p1 < susfs_2.patch
 patch -p1 < susfs_3.patch
 
 # ============================
