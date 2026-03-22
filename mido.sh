@@ -27,8 +27,8 @@ wget https://raw.githubusercontent.com/rksuorg/kernel_patches/refs/heads/master/
 patch -p1 < kernel-4.4_4.9.patch
 
 echo "CONFIG_KSU=y" >> ./arch/arm64/configs/mido_defconfig
-echo "CONFIG_KSU_MANUAL_HOOK=y" >> ./arch/arm64/configs/mido_defconfig
-echo "CONFIG_KSU_KPROBES_HOOK=n" >> ./arch/arm64/configs/mido_defconfig
+echo "CONFIG_KSU_TAMPER_SYSCALL_TABLE=y" >> ./arch/arm64/configs/mido_defconfig
+echo "CONFIG_KSU_EXTRAS=y" >> ./arch/arm64/configs/mido_defconfig
 
 curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
 
