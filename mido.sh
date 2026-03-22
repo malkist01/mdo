@@ -111,13 +111,9 @@ function send_initial_message() {
 function send_success_message() {
     tg_channelcast \
         "✅ <b>Build Sukses!</b>" \
-        
         "📱 <b>Device :</b> <code>$DEVICE</code>" \
-        
-        "♻️ <b>Kernel :</b> <code>$LINUX_VER</code>" \
-        
+        "♻️ <b>Kernel :</b> <code>$LINUX_VER</code>" \ 
         "📦 <b>ZIP:</b> <code>$ZIPNAME</code>" \
-        
         "🕒 <b>Durasi:</b> <code>$((DIFF / 60)) menit $((DIFF % 60)) detik</code>"
 }
 
