@@ -24,6 +24,8 @@ LINUX_VER=$(make kernelversion 2>/dev/null)
 # ============================
 
 curl -LSs https://raw.githubusercontent.com/ThRE-Team/KernelSU-Next/main/kernel/setup.sh | bash -s main
+chmod +x susfs.sh
+bash susfs.sh
 
 # ============================
 # Variabel Telegram dan Device Info
