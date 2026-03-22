@@ -11,7 +11,7 @@ exec > >(tee -a build.log) 2>&1
 PHONE="mido"
 DEFCONFIG="mido_defconfig"
 CLANG_V="$COMPILERDIR $(clang --version 2>&1 | head -n 1)"
-ZIPNAME="Teletubies-KSUN-$PHONE-$(date '+%Y%m%d-%H%M').zip"
+ZIPNAME="Teletubies-$PHONE-$(date '+%Y%m%d-%H%M').zip"
 BOT_TOKEN="7868194496:AAGY7WwRRbeCOPYOnczoCPh2psC43Q0F3JI"
 CHAT_ID="-1002287610863"
 COMPILERDIR="$(pwd)/../aosp-clang"
@@ -117,9 +117,13 @@ function send_initial_message() {
 function send_success_message() {
     tg_channelcast \
         "✅ <b>Build Sukses!</b>" \
+        
         "📱 <b>Device :</b> <code>$DEVICE</code>" \
+        
         "♻️ <b>Kernel :</b> <code>$LINUX_VER</code>" \
+        
         "📦 <b>ZIP:</b> <code>$ZIPNAME</code>" \
+        
         "🕒 <b>Durasi:</b> <code>$((DIFF / 60)) menit $((DIFF % 60)) detik</code>"
 }
 
