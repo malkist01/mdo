@@ -22,16 +22,10 @@ LINUX_VER=$(make kernelversion 2>/dev/null)
 # ============================
 # KernelSU
 # ============================
-chmod +x test.patch
-chmod +x patch1.patch
-patch -p1 < patch1.patch
-patch -p1 < test.patch
 
-echo "CONFIG_KSU=y" >> ./arch/arm64/configs/mido_defconfig
-echo "CONFIG_KSU_TAMPER_SYSCALL_TABLE=y" >> ./arch/arm64/configs/mido_defconfig
-echo "CONFIG_KSU_EXTRAS=y" >> ./arch/arm64/configs/mido_defconfig
-
-curl https://raw.githubusercontent.com/backslashxx/KernelSU/refs/heads/master/kernel/setup.sh | bash
+wget https://raw.githubusercontent.com/rksuorg/kernel_patches/refs/heads/master/manual_hook/kernel-4.4_4.9.patch
+patch -p1 < kernel-4.4_4.9.patch
+curl -LSs https://raw.githubusercontent.com/ThRE-Team/KernelSU-Next/main/kernel/setup.sh | bash -s main
 
 # ============================
 # Variabel Telegram dan Device Info
