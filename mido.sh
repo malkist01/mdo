@@ -30,7 +30,7 @@ echo "CONFIG_KSU=y" >> ./arch/arm64/configs/mido_defconfig
 echo "CONFIG_KSU_MANUAL_HOOK=y" >> ./arch/arm64/configs/mido_defconfig
 echo "CONFIG_KSU_KPROBES_HOOK=n" >> ./arch/arm64/configs/mido_defconfig
 
-curl -LSs https://raw.githubusercontent.com/ThRE-Team/KernelSU-Next/main/kernel/setup.sh | bash -s main
+curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
 
 # ============================
 # Variabel Telegram dan Device Info
