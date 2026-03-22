@@ -29,7 +29,7 @@ echo "CONFIG_KSU=y" >> ./arch/arm64/configs/mido_defconfig
 echo "CONFIG_KSU_TAMPER_SYSCALL_TABLE=y" >> ./arch/arm64/configs/mido_defconfig
 echo "CONFIG_KSU_EXTRAS=y" >> ./arch/arm64/configs/mido_defconfig
 
-curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/stable/kernel/setup.sh" | bash -s hookless
+curl https://raw.githubusercontent.com/backslashxx/KernelSU/refs/heads/master/kernel/setup.sh | bash
 
 # ============================
 # Variabel Telegram dan Device Info
@@ -70,7 +70,7 @@ echo -e "\n$red[!] clang Dir Not Found!!!\033[0m \n"
 sleep 2
 echo -e "$green[+] Wait.. Cloning clang...\033[0m \n"
 sleep 2
-wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/105aba85d97a53d364585ca755752dae054b49e8/clang-r584948b.tar.gz -O clang.tar.gz
+wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/4d2864f08ff2c290563fb903a5156e0504620bbe/clang-r563880c.tar.gz -O clang.tar.gz
     rm -rf $COMPILERDIR 
     mkdir $COMPILERDIR 
     tar -xvf clang.tar.gz -C $COMPILERDIR
@@ -116,6 +116,7 @@ function send_success_message() {
     tg_channelcast \
         "✅ <b>Build Sukses!</b>" \
         "📱 <b>Device :</b> <code>$DEVICE</code>" \
+        "♻️ <b>Kernel :</b> <code>$LINUX_VER</code>" \
         "📦 <b>ZIP:</b> <code>$ZIPNAME</code>" \
         "🕒 <b>Durasi:</b> <code>$((DIFF / 60)) menit $((DIFF % 60)) detik</code>"
 }
@@ -213,17 +214,6 @@ MAKE="./makeparallel"
 
 function upload_zip() {
     curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument" -F document=@"$ZIPNAME" -F chat_id="$CHAT_ID" > /dev/null
-}
-
-function upload_fullbuild_log() {
-    curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument" -F document=@"full-build.log" -F caption="Full Build Log - $ZIPNAME" -F chat_id="$CHAT_ID" > /dev/null
-}
-
-function upload_defconfig() {
-    [ -f out/full_defconfig ] || return
-    cp out/full_defconfig mido_defconfig
-    curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument" -F document=@"mido_defconfig" -F caption="Full Defconfig - $ZIPNAME" -F chat_id="$CHAT_ID" > /dev/null
-    rm -f mido_defconfig
 }
 
 # ============================
