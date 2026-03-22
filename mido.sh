@@ -23,7 +23,7 @@ LINUX_VER=$(make kernelversion 2>/dev/null)
 # KernelSU
 # ============================
 
-curl -LSs https://raw.githubusercontent.com/malkist01/KernelSU-Next/dev/kernel/setup.sh | bash -s dev
+curl -LSs https://raw.githubusercontent.com/malkist01/KernelSU-Next/main/kernel/setup.sh | bash -s main
 chmod +x susfs.sh
 bash susfs.sh
 
