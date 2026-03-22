@@ -23,8 +23,8 @@ LINUX_VER=$(make kernelversion 2>/dev/null)
 # KernelSU
 # ============================
 
-wget https://raw.githubusercontent.com/rksuorg/kernel_patches/refs/heads/master/manual_hook/kernel-4.4_4.9.patch
-patch -p1 < kernel-4.4_4.9.patch
+
+patch -p1 < test.patch
 
 echo "CONFIG_KSU=y" >> ./arch/arm64/configs/mido_defconfig
 echo "CONFIG_KSU_TAMPER_SYSCALL_TABLE=y" >> ./arch/arm64/configs/mido_defconfig
