@@ -21,6 +21,7 @@ LINUX_VER=$(make kernelversion 2>/dev/null)
 USE_CCACHE=1
 export CCACHE_DIR="$COMPILERDIR/.ccache"
 ccache -M 10G
+ccache --set-config=compression=true
 
 # ============================
 # KernelSU
@@ -52,9 +53,8 @@ reset="\033[0m"
 
 function install_dependencies() {
     echo -e "${cyan}==> Instalasi dependensi...${reset}"
-    sudo apt update
-    sudo apt install -y bc cpio flex bison aptitude git python-is-python3 tar aria2 perl wget curl lz4 libssl-dev device-tree-compiler
-    sudo apt install -y zstd
+    sudo apt-get update -qq
+    sudo apt-get install -y --no-install-recommends python3-pip git zip unzip gcc g++ make ninja-build file bc bison flex libfl-dev libssl-dev libelf-dev wget build-essential python3-dev python3-setuptools rsync ccache llvm-dev libncurses6 libfdt-dev binwalk
 }
 
 function clang() {
