@@ -174,7 +174,6 @@ MAKE="./makeparallel"
     HOSTAR="llvm-ar" \
     HOSTAS="llvm-as" \
     HOSTNM="llvm-nm" \
-    CLANG_TRIPLE="aarch64-linux-gnu-" \
     CROSS_COMPILE=aarch64-linux-gnu- \
     CROSS_COMPILE_ARM32=arm-linux-gnueabi- 2>&1 | tee full-build.log
 
