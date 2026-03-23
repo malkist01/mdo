@@ -79,15 +79,6 @@ sleep 1
 fi
 }
 
-    sudo rm -rf /usr/share/dotnet
-    sudo rm -rf /usr/local/lib/android
-    sudo rm -rf /opt/ghc
-
-    sudo fallocate -l 4G /swapfile
-    sudo chmod 600 /swapfile
-    sudo mkswap /swapfile
-    sudo swapon /swapfile
-
 function verify_toolchain_versions() {
     echo -e "${green}🔧 Clang  : $(${COMPILERDIR}/aosp-clang/bin/clang --version | head -n 1)${reset}"
 }
