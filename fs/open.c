@@ -360,10 +360,6 @@ SYSCALL_DEFINE4(fallocate, int, fd, int, mode, loff_t, offset, loff_t, len)
  * We do this by temporarily clearing all FS-related capabilities and
  * switching the fsuid/fsgid around to the real ones.
  */
-#ifdef CONFIG_KSU
-extern int ksu_handle_faccessat(int *dfd, const char __user **filename_user, int *mode,
-			 int *flags);
-#endif
 SYSCALL_DEFINE3(faccessat, int, dfd, const char __user *, filename, int, mode)
 {
 	const struct cred *old_cred;
@@ -373,9 +369,6 @@ SYSCALL_DEFINE3(faccessat, int, dfd, const char __user *, filename, int, mode)
 	struct vfsmount *mnt;
 	int res;
 	unsigned int lookup_flags = LOOKUP_FOLLOW;
-#ifdef CONFIG_KSU
-	ksu_handle_faccessat(&dfd, &filename, &mode, NULL);
-#endif
 
 	if (mode & ~S_IRWXO)	/* where's F_OK, X_OK, W_OK, R_OK? */
 		return -EINVAL;
@@ -1083,22 +1076,44 @@ struct file *filp_clone_open(struct file *oldfile)
 }
 EXPORT_SYMBOL(filp_clone_open);
 
+#ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
+extern int susfs_open_redirect_spoof_do_sys_openat(struct inode *inode, struct filename **tmp_filename);
+#endif // #ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
+
 long do_sys_open(int dfd, const char __user *filename, int flags, umode_t mode)
 {
 	struct open_flags op;
 	int fd = build_open_flags(flags, mode, &op);
 	struct filename *tmp;
+#ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
+	bool is_inode_open_redirect = false;
+#endif // #ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
 
 	if (fd)
 		return fd;
 
 	tmp = getname(filename);
+#ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
+retry:
+#endif // #ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
 	if (IS_ERR(tmp))
 		return PTR_ERR(tmp);
 
 	fd = get_unused_fd_flags(flags);
 	if (fd >= 0) {
 		struct file *f = do_filp_open(dfd, tmp, &op);
+#ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
+		if (f && !IS_ERR(f) && !is_inode_open_redirect) {
+			if (SUSFS_IS_INODE_OPEN_REDIRECT_WITHOUT_UID_CHECK(file_inode(f))) {
+				if (!susfs_open_redirect_spoof_do_sys_openat(file_inode(f), &tmp)) {
+					is_inode_open_redirect = true;
+					filp_close(f, NULL);
+					put_unused_fd(fd);
+					goto retry;
+				}
+			}
+		}
+#endif // #ifdef CONFIG_KSU_SUSFS_OPEN_REDIRECT
 		if (IS_ERR(f)) {
 			put_unused_fd(fd);
 			fd = PTR_ERR(f);
