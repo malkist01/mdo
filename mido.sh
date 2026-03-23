@@ -27,7 +27,7 @@ ccache --set-config=compression=true
 # KernelSU
 # ============================
 
-curl -LSs "https://raw.githubusercontent.com/malkist01/SU/main/kernel/setup.sh" | bash -s main
+curl -LSs "https://raw.githubusercontent.com/Sorayukii/KernelSU-Next/susfs-1512/kernel/setup.sh" | bash -s susfs-1512
 
 # ============================
 # Variabel Telegram dan Device Info
