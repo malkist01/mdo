@@ -11,7 +11,7 @@ exec > >(tee -a build.log) 2>&1
 PHONE="mido"
 DEFCONFIG="mido_defconfig"
 CLANG_V="$COMPILERDIR $(clang --version 2>&1 | head -n 1)"
-ZIPNAME="Teletubies-KSU$PHONE-$(date '+%Y%m%d-%H%M').zip"
+ZIPNAME="Teletubies-KSU-$PHONE-$(date '+%Y%m%d-%H%M').zip"
 BOT_TOKEN="7868194496:AAGY7WwRRbeCOPYOnczoCPh2psC43Q0F3JI"
 CHAT_ID="-1002287610863"
 COMPILERDIR="$(pwd)/../aosp-clang"
@@ -181,7 +181,7 @@ MAKE="./makeparallel"
 
     echo -e "${green}[+] Build sukses! Packing ZIP...${reset}"
 
-    [ ! -d AnyKernel3 ] && git clone -q https://github.com/malkist01/AnyKernel3.git -b master AnyKernel3
+    [ ! -d AnyKernel3 ] && git clone -q https://github.com/malkist01/AnyKernel3.git -b mido AnyKernel3
     cp -f "$kernel" "$dtb" AnyKernel3/
     [ -f "$dtbo" ] && cp -f "$dtbo" AnyKernel3/
     cd AnyKernel3 || return 1
