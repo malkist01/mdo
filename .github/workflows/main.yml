@@ -18,16 +18,3 @@ jobs:
       run: |
         chmod +x mido.sh
         bash mido.sh
-
-    - name: Free Disk Space
-      run: |
-        sudo rm -rf /usr/share/dotnet
-        sudo rm -rf /usr/local/lib/android
-        sudo rm -rf /opt/ghc
-
-    - name: Set up Swap Space
-      run: |
-        sudo fallocate -l 4G /swapfile
-        sudo chmod 600 /swapfile
-        sudo mkswap /swapfile
-        sudo swapon /swapfile
