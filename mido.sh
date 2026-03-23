@@ -11,7 +11,7 @@ exec > >(tee -a build.log) 2>&1
 PHONE="mido"
 DEFCONFIG="mido_defconfig"
 CLANG_V="$COMPILERDIR $(clang --version 2>&1 | head -n 1)"
-ZIPNAME="Teletubies-$PHONE-$(date '+%Y%m%d-%H%M').zip"
+ZIPNAME="Teletubies-KSU$PHONE-$(date '+%Y%m%d-%H%M').zip"
 BOT_TOKEN="7868194496:AAGY7WwRRbeCOPYOnczoCPh2psC43Q0F3JI"
 CHAT_ID="-1002287610863"
 COMPILERDIR="$(pwd)/../aosp-clang"
@@ -96,7 +96,6 @@ function send_initial_message() {
     tg_channelcast \
         "🚀 <b>Kernel Build Dimulai!</b>" \
         "📱 <b>Device :</b> <code>$DEVICE</code>" \
-        "🍃 <Kernel Version :</b> <code>$LINUX_VER</code>" \
         "🛠️ <b>Compiler :</b> <code>$CLANG_V</code>" \
         "🌿 <b>Branch :</b> <code>$PARSE_BRANCH</code>" \
         "📝 <b>Commit :</b> $COMMIT_POINT" \
@@ -161,14 +160,6 @@ MAKE="./makeparallel"
    make -j$(nproc --all) \
     O=out \
     ARCH=arm64 \
-    LLVM=1 \
-    LLVM_IAS=1 \
-    AR=llvm-ar \
-    NM=llvm-nm \
-    LD=ld.lld \
-    OBJCOPY=llvm-objcopy \
-    OBJDUMP=llvm-objdump \
-    STRIP=llvm-strip \
     CC=clang \
     DTC_EXT=dtc \
     CROSS_COMPILE=aarch64-linux-gnu- \
