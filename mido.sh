@@ -18,6 +18,9 @@ COMPILERDIR="$(pwd)/../aosp-clang"
 export KBUILD_BUILD_USER="malkist"
 export KBUILD_BUILD_HOST="phone"
 LINUX_VER=$(make kernelversion 2>/dev/null)
+USE_CCACHE=1
+export CCACHE_DIR="$COMPILERDIR/.ccache"
+ccache -M 10G
 
 # ============================
 # KernelSU
