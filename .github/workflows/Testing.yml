@@ -14,7 +14,7 @@ env:
    CCACHE_NOHASHDIR: "true"
    CCACHE_HARDLINK: "true"
        
-    steps:
+steps:
       - name: Checkout source
         uses: actions/checkout@v4
 
@@ -45,6 +45,6 @@ env:
           max-size: 2G
 
       - name: Building Kernel     
-      run: |
-        chmod +x mido.sh
-        bash mido.sh
+        run: |
+          chmod +x mido.sh
+          bash mido.sh
