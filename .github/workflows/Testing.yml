@@ -5,16 +5,13 @@ on:
 jobs:
   build:
     runs-on: ubuntu-22.04   # jangan pakai latest biar stabil
-
+fail-fast: false
 env:
  TZ: Asia/Jakarta
  CHATID: -1002287610863
  BOT_TOKEN: 7868194496:AAGY7WwRRbeCOPYOnczoCPh2psC43Q0F3JI
- CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
- CCACHE_NOHASHDIR: "true"
- CCACHE_HARDLINK: "true"
 
-    steps:
+steps:
     - name: Checkout source
       uses: actions/checkout@v4
 
