@@ -53,6 +53,18 @@ reset="\033[0m"
 
 function install_dependencies() {
     echo -e "${cyan}==> Instalasi dependensi...${reset}"
+          sudo apt update
+          sudo apt install git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev make optipng  maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler cpio coccinelle -y
+          sudo apt-get install zstd libc6 binutils libc6-dev-i386 gcc g++ p7zip p7zip-full -y
+
+          # Install Libtinfo5
+          curl -C - --progress-bar -L http://launchpadlibrarian.net/580830584/libtinfo5_6.3-2_amd64.deb -o libtinfo5.deb
+          sudo apt install ./libtinfo5.deb
+          rm -f libtinfo5.deb
+
+          sudo apt install python3 -y
+          sudo rm -rf /usr/bin/python
+          sudo ln -s /usr/bin/python3 /usr/bin/python
 }
 
 function clang() {
