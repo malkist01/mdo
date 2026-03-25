@@ -10,24 +10,19 @@ exec > >(tee -a build.log) 2>&1
 # ============================
 PHONE="mido"
 DEFCONFIG="mido_defconfig"
-CLANG_V="$COMPILERDIR $(clang --version 2>&1 | head -n 1)"
-ZIPNAME="Teletubies-KSU-$PHONE-$(date '+%Y%m%d-%H%M').zip"
+CLANG="$COMPILERDIR $(clang --version 2>&1 | head -n 1)"
+ZIPNAME="Teletubies-$PHONE-$(date '+%Y%m%d-%H%M').zip"
 BOT_TOKEN="7868194496:AAGY7WwRRbeCOPYOnczoCPh2psC43Q0F3JI"
 CHAT_ID="-1002287610863"
 COMPILERDIR="$(pwd)/../aosp-clang"
 export KBUILD_BUILD_USER="malkist"
 export KBUILD_BUILD_HOST="phone"
-LINUX_VER=$(make kernelversion 2>/dev/null)
-export USE_CCACHE=1
-export CCACHE_DIR="$COMPILERDIR/.ccache"
-ccache -M 10G
-ccache --set-config=compression=true
 
 # ============================
 # KernelSU
 # ============================
 
-curl -LSs "https://raw.githubusercontent.com/malkist01/KernelSU-Next/refs/heads/main/kernel/setup.sh" | bash -s main
+curl -LSs https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/legacy_susfs/kernel/setup.sh | bash -s legacy_susfs
 
 # ============================
 # Variabel Telegram dan Device Info
@@ -42,6 +37,8 @@ TOTAL_RAM_GB="$(free -g | awk '/^Mem:/{print $2}')"
 DATE="$(date '+%Y-%m-%d %H:%M:%S')"
 MESSAGE_ERROR="Error Build untuk $PHONE Dibatalkan!"
 kernel="out/arch/arm64/boot/Image.gz-dtb"
+dtb="out/arch/arm64/boot/dtb.img"
+dtbo="out/arch/arm64/boot/dtbo.img"
 
 # ============================
 # Warna output
@@ -53,9 +50,9 @@ reset="\033[0m"
 
 function install_dependencies() {
     echo -e "${cyan}==> Instalasi dependensi...${reset}"
-    sudo apt-get update -qq 
-    sudo apt-get install -y --no-install-recommends 
-    python3-pip git zip unzip gcc g++ make ninja-build file bc bison flex libfl-dev libssl-dev libelf-dev wget build-essential python3-dev python3-setuptools rsync ccache llvm-dev libncurses6 libfdt-dev binwalk
+    sudo apt update
+    sudo apt install -y bc cpio flex bison aptitude git python-is-python3 tar aria2 perl wget curl lz4 libssl-dev device-tree-compiler
+    sudo apt install -y zstd
 }
 
 function clang() {
@@ -68,7 +65,7 @@ echo -e "\n$red[!] clang Dir Not Found!!!\033[0m \n"
 sleep 2
 echo -e "$green[+] Wait.. Cloning clang...\033[0m \n"
 sleep 2
-wget -q https://github.com/bachnxuan/aosp_clang_mirror/releases/download/clang-r584948b-14726520/clang-r584948b.tar.gz -O clang.tar.gz
+wget -q https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/4d2864f08ff2c290563fb903a5156e0504620bbe/clang-r563880c.tar.gz -O clang.tar.gz
     rm -rf $COMPILERDIR 
     mkdir $COMPILERDIR 
     tar -xvf clang.tar.gz -C $COMPILERDIR
@@ -100,7 +97,7 @@ function send_initial_message() {
     tg_channelcast \
         "🚀 <b>Kernel Build Dimulai!</b>" \
         "📱 <b>Device :</b> <code>$DEVICE</code>" \
-        "🛠️ <b>Compiler :</b> <code>$CLANG_V</code>" \
+        "🛠️ <b>Compiler :</b> <code>$CLANG</code>" \
         "🌿 <b>Branch :</b> <code>$PARSE_BRANCH</code>" \
         "📝 <b>Commit :</b> $COMMIT_POINT" \
         "🧠 <b>CPU :</b> <code>$CPU_NAME ($PROCS cores)</code>" \
@@ -113,7 +110,6 @@ function send_success_message() {
     tg_channelcast \
         "✅ <b>Build Sukses!</b>" \
         "📱 <b>Device :</b> <code>$DEVICE</code>" \
-        "♻️ <b>Kernel :</b> <code>$LINUX_VER</code>" \ 
         "📦 <b>ZIP:</b> <code>$ZIPNAME</code>" \
         "🕒 <b>Durasi:</b> <code>$((DIFF / 60)) menit $((DIFF % 60)) detik</code>"
 }
@@ -164,10 +160,16 @@ MAKE="./makeparallel"
    make -j$(nproc --all) \
     O=out \
     ARCH=arm64 \
-    CC="ccache clang" \
-    LD=ld.lld \
     LLVM=1 \
     LLVM_IAS=1 \
+    AR=llvm-ar \
+    NM=llvm-nm \
+    LD=ld.lld \
+    OBJCOPY=llvm-objcopy \
+    OBJDUMP=llvm-objdump \
+    STRIP=llvm-strip \
+    CC=clang \
+    DTC_EXT=dtc \
     CROSS_COMPILE=aarch64-linux-gnu- \
     CROSS_COMPILE_ARM32=arm-linux-gnueabi- 2>&1 | tee full-build.log
 
@@ -182,7 +184,7 @@ MAKE="./makeparallel"
 
     echo -e "${green}[+] Build sukses! Packing ZIP...${reset}"
 
-    [ ! -d AnyKernel3 ] && git clone -q https://github.com/malkist01/AnyKernel3.git -b mido AnyKernel3
+    [ ! -d AnyKernel3 ] && git clone -q https://github.com/malkist01/AnyKernel3.git -b master AnyKernel3
     cp -f "$kernel" "$dtb" AnyKernel3/
     [ -f "$dtbo" ] && cp -f "$dtbo" AnyKernel3/
     cd AnyKernel3 || return 1
@@ -205,6 +207,17 @@ MAKE="./makeparallel"
 
 function upload_zip() {
     curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument" -F document=@"$ZIPNAME" -F chat_id="$CHAT_ID" > /dev/null
+}
+
+function upload_fullbuild_log() {
+    curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument" -F document=@"full-build.log" -F caption="Full Build Log - $ZIPNAME" -F chat_id="$CHAT_ID" > /dev/null
+}
+
+function upload_defconfig() {
+    [ -f out/full_defconfig ] || return
+    cp out/full_defconfig mido_defconfig
+    curl -s -X POST "https://api.telegram.org/bot${BOT_TOKEN}/sendDocument" -F document=@"mido_defconfig" -F caption="Full Defconfig - $ZIPNAME" -F chat_id="$CHAT_ID" > /dev/null
+    rm -f mido_defconfig
 }
 
 # ============================
