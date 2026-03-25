@@ -6,24 +6,24 @@ jobs:
   build:
     runs-on: ubuntu-22.04   # jangan pakai latest biar stabil
 
-      env:
-        TZ: Asia/Jakarta
-        CHATID: -1002287610863
-        BOT_TOKEN: 7868194496:AAGY7WwRRbeCOPYOnczoCPh2psC43Q0F3JI
-       CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
-       CCACHE_NOHASHDIR: "true"
-       CCACHE_HARDLINK: "true"
+env:
+   TZ: Asia/Jakarta
+   CHATID: -1002287610863
+   BOT_TOKEN: 7868194496:AAGY7WwRRbeCOPYOnczoCPh2psC43Q0F3JI
+   CCACHE_COMPILERCHECK: "%compiler% -dumpmachine; %compiler% -dumpversion"
+   CCACHE_NOHASHDIR: "true"
+   CCACHE_HARDLINK: "true"
        
     steps:
-    - name: Checkout source
-      uses: actions/checkout@v4
+      - name: Checkout source
+        uses: actions/checkout@v4
 
-    - name: Remove useless tools
+      - name: Remove useless tools
         run: |
           sudo rm -rf /opt/hostedtoolcache
           df -h
 
-    - name: Install necessary packages
+      - name: Install necessary packages
         run: |
           sudo apt update
           sudo apt install git ccache automake flex lzop bison gperf build-essential zip curl zlib1g-dev g++-multilib libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev make optipng  maven libssl-dev pwgen libswitch-perl policycoreutils minicom libxml-sax-base-perl libxml-simple-perl bc libc6-dev-i386 libx11-dev lib32z-dev libgl1-mesa-dev xsltproc unzip device-tree-compiler cpio coccinelle -y
