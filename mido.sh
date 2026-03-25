@@ -22,7 +22,9 @@ export KBUILD_BUILD_HOST="phone"
 # KernelSU
 # ============================
 
-curl -LSs https://raw.githubusercontent.com/malkist01/KernelSU-Next/main/kernel/setup.sh | bash -s main
+curl -LSs "https://raw.githubusercontent.com/ReSukiSU/ReSukiSU/refs/heads/main/kernel/setup.sh" | bash -s main
+curl -LSs "https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/refs/heads/mainline/Patches/syscall_hook_patches.sh" | bash -s
+curl -LSs "https://raw.githubusercontent.com/JackA1ltman/NonGKI_Kernel_Build_2nd/refs/heads/mainline/Patches/backport_patches.sh" | bash -s
 
 # ============================
 # Variabel Telegram dan Device Info
@@ -184,7 +186,7 @@ MAKE="./makeparallel"
 
     echo -e "${green}[+] Build sukses! Packing ZIP...${reset}"
 
-    [ ! -d AnyKernel3 ] && git clone -q https://github.com/malkist01/AnyKernel3.git -b master AnyKernel3
+    [ ! -d AnyKernel3 ] && git clone -q https://github.com/malkist01/AnyKernel3.git -b mido AnyKernel3
     cp -f "$kernel" "$dtb" AnyKernel3/
     [ -f "$dtbo" ] && cp -f "$dtbo" AnyKernel3/
     cd AnyKernel3 || return 1
