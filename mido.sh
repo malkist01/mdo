@@ -22,7 +22,7 @@ export KBUILD_BUILD_HOST="phone"
 # KernelSU
 # ============================
 
-curl -LSs https://raw.githubusercontent.com/KernelSU-Next/KernelSU-Next/legacy_susfs/kernel/setup.sh | bash -s legacy_susfs
+curl -LSs https://raw.githubusercontent.com/malkist01/KernelSU-Next/main/kernel/setup.sh | bash -s main
 
 # ============================
 # Variabel Telegram dan Device Info
