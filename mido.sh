@@ -23,6 +23,7 @@ export KBUILD_BUILD_HOST="phone"
 # ============================
 
 curl -LSs "https://raw.githubusercontent.com/malkist01/ReSukiSU/refs/heads/main/kernel/setup.sh" | bash -s main
+chmod +x test.patch
 patch p1 < test.patch
 
 # ============================
